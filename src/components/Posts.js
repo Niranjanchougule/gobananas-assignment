@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import { fetchPosts, fetchUsers } from "./api";
+
 import {
   Container,
   Grid,
@@ -10,14 +11,17 @@ import {
   CircularProgress,
   Box,
   CardActionArea,
-  TextField,
 } from "@mui/material";
+import UserContext from "../context/UserContext";
 
 const Posts = () => {
   const [posts, setPosts] = useState([]);
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [searchQuery, setSearchQuery] = useState("");
+
+  const obj = useContext(UserContext);
+
+  // console.log(obj);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -44,7 +48,7 @@ const Posts = () => {
   };
 
   const filteredPosts = posts.filter((post) =>
-    post.title.toLowerCase().includes(searchQuery.toLowerCase())
+    post.title.toLowerCase().includes(obj.searchQuery.toLowerCase())
   );
 
   if (loading) {
@@ -65,14 +69,7 @@ const Posts = () => {
       <Typography variant="h3" gutterBottom>
         Posts
       </Typography>
-      <TextField
-        label="Search by Title"
-        variant="outlined"
-        fullWidth
-        margin="normal"
-        value={searchQuery}
-        onChange={(e) => setSearchQuery(e.target.value)}
-      />
+
       <Grid container spacing={3}>
         {filteredPosts.map((post) => (
           <Grid item xs={12} sm={6} md={4} key={post.id}>

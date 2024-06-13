@@ -1,6 +1,6 @@
 import React from "react";
 import { Container } from "@mui/material";
-import Posts from "./Posts";
+import Posts from "./components/Posts";
 
 const App = () => {
   return (
